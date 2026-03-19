@@ -438,8 +438,16 @@
     .heart-bubble { padding: 36px 24px; }
     .nav-dots { display: none; }
   }
+  
 </style>
 </head>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<script>
+(function(){
+  emailjs.init("0cpXwYS6CbhEfO53G"); // paste here
+})();
+</script>
 <body>
 
 <canvas id="canvas"></canvas>
@@ -681,10 +689,25 @@ document.querySelector('.btn-primary').addEventListener('click', function(e) {
 });
 
 // ── PROPOSAL RESPONSES ──
+function sendEmail(responseType) {
+  emailjs.send("service_16m3wm1", "template_lz9qyfm", {
+    response: responseType,
+    time: new Date().toLocaleString()
+  })
+  .then(function() {
+    console.log("Email sent!");
+  }, function(error) {
+    console.error("Failed...", error);
+  });
+}
+
 function handleYes() {
   const msg = document.getElementById('responseMsg');
   msg.innerHTML = '✨ You just made this the most beautiful moment of my life.<br>Thank you… truly, deeply. 💜';
   msg.style.display = 'block';
+
+  sendEmail("She clicked YES 💜"); // 🔥 EMAIL SENT
+
   launchConfetti();
   document.querySelector('.btn-group').style.opacity = '0.4';
   document.querySelector('.btn-group').style.pointerEvents = 'none';
@@ -694,10 +717,12 @@ function handleWait() {
   const msg = document.getElementById('responseMsg');
   msg.innerHTML = 'I\'ll wait… 🌙<br><span style="font-size:0.8em; opacity:0.8">No rush, no pressure. You are worth every moment.</span>';
   msg.style.display = 'block';
+
+  sendEmail("She clicked NEED TIME 🙂"); // 🔥 EMAIL SENT
+
   document.querySelector('.btn-group').style.opacity = '0.4';
   document.querySelector('.btn-group').style.pointerEvents = 'none';
 }
-
 // ── CONFETTI ──
 function launchConfetti() {
   const colors = ['#c8b4e8','#f2c4d0','#b07de8','#f9b8c8','#e8d5f5','#fff'];
